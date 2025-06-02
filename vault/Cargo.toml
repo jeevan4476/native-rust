@@ -1,0 +1,35 @@
+[package]
+name = "vault"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["optimized"]
+native = ["solana-program"] # Not bad, but we can do better
+optimized = ["pinocchio", "five8_const", "solana-nostd-sha256"] # Much better!
+native_rust = ["solana-program","borsh"]
+pinocchio = ["dep:pinocchio"]
+no-entrypoint = []
+std = []
+test-default = ["no-entrypoint", "std"]
+bench-default = ["no-entrypoint", "std"]
+
+[dependencies]
+borsh = { version = "1.5.7", features = ["derive"] , optional= true }
+borsh-derive = { version = "1.5.7", optional = true }
+solana-nostd-sha256 = { version = "0.1.3", optional = true }
+pinocchio = { version = "0.8.4", optional = true }
+five8_const = { version = "0.1.4", optional = true }
+solana-program = { version = "2.2.1", optional = true }
+pinocchio-system = "0.2.3"
+pinocchio-log = "0.4.0"
+
+
+[lib]
+crate-type = ["cdylib","lib"]
+
+[dev-dependencies]
+mollusk-svm = "0.1.5"
+solana-sdk = "2.2.2"
+spl-token = "8.0.0"
+mollusk-svm-bencher = "0.1.4"

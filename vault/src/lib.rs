@@ -1,8 +1,13 @@
 mod instruction;
 use instruction::*;
 
-mod deposit;
-mod withdraw;
+mod state;
+use state::*;
+
+pub mod deposit;
+pub mod error;
+pub mod intialize;
+pub mod withdraw;
 
 use solana_program::{
     account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, program_error::ProgramError,
@@ -19,4 +24,5 @@ pub fn process_instruction(
     let (discriminator, data) = data
         .split_first()
         .ok_or(ProgramError::InvalidInstructionData)?;
+    Ok(())
 }

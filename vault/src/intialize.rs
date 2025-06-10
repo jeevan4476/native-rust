@@ -3,11 +3,12 @@ use borsh::BorshSerialize;
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
-    example_mocks::solana_sdk::system_instruction,
+    // example_mocks::solana_sdk::system_instruction,
     program::invoke,
     program_error::ProgramError,
     pubkey::Pubkey,
     rent::Rent,
+    system_instruction::create_account,
     sysvar::Sysvar,
 };
 
@@ -35,7 +36,7 @@ pub fn process(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
 
     let rent = Rent::get()?;
     invoke(
-        &system_instruction::create_account(
+        &create_account(
             user.key,
             state_acc.key,
             rent.minimum_balance(VaultState::LEN),

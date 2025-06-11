@@ -10,8 +10,13 @@ crate-type = ["lib", "cdylib"]
 borsh = "1.5.7"
 borsh-derive = "1.5.7"
 shank = "0.4.3"
-solana-program = "2.3.0"
+solana-program = "2.2.1"
 thiserror = "2.0.12"
 
 [features]
 no-entrypoint = []
+
+[dev-dependencies]
+mollusk-svm = "0.2.0"
+solana-sdk = "2.2.1"
+five8_const = "0.1.4"

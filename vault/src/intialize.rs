@@ -13,11 +13,14 @@ use solana_program::{
 };
 
 pub fn process(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
-    let accounts_iter = &mut accounts.iter();
-    let user = next_account_info(accounts_iter)?;
-    let state_acc = next_account_info(accounts_iter)?;
-    let vault_acc = next_account_info(accounts_iter)?;
-    let system_program = next_account_info(accounts_iter)?;
+    let [user, state_acc, vault_acc, system_prorgam] = accounts else {
+        return Err(ProgramError::NotEnoughAccountKeys);
+    };
+    // let accounts_iter = &mut accounts.iter();
+    // let user = next_account_info(accounts_iter)?;
+    // let state_acc = next_account_info(accounts_iter)?;
+    // let vault_acc = next_account_info(accounts_iter)?;
+    // let system_program = next_account_info(accounts_iter)?;
 
     if !user.is_signer {
         return Err(ProgramError::MissingRequiredSignature);
@@ -43,7 +46,7 @@ pub fn process(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
             VaultState::LEN as u64,
             program_id,
         ),
-        &[user.clone(), state_acc.clone(), system_program.clone()],
+        &[user.clone(), state_acc.clone(), system_prorgam.clone()],
     )?;
 
     let vault_state = VaultState {

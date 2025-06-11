@@ -1,4 +1,4 @@
-use super::utils::{check_eq_PDA, check_eq_PDA_and_get_bump};
+use super::utils::{check_eq_pda, check_eq_pda_and_get_bump};
 use bytemuck::{Pod, Zeroable};
 use solana_program::{
     account_info::AccountInfo,
@@ -35,7 +35,7 @@ impl Escrow {
 
         //check PDA and return bump
 
-        let bump = check_eq_PDA_and_get_bump(
+        let bump = check_eq_pda_and_get_bump(
             &[
                 b"escrow",
                 maker.as_ref(),
@@ -56,7 +56,7 @@ impl Escrow {
         maker: &AccountInfo<'a>,
         escrow: &AccountInfo<'a>,
     ) -> ProgramResult {
-        let bump = check_eq_PDA_and_get_bump(
+        let bump = check_eq_pda_and_get_bump(
             &[b"escrow", maker.key.as_ref(), seed.to_le_bytes().as_ref()],
             &crate::ID,
             escrow.key,
@@ -104,7 +104,7 @@ impl Escrow {
         maker: &AccountInfo<'a>,
     ) -> ProgramResult {
         //check PDA of vault
-        check_eq_PDA_and_get_bump(&[b"vault", escrow_address.as_ref()], &crate::ID, vault.key)?;
+        check_eq_pda_and_get_bump(&[b"vault", escrow_address.as_ref()], &crate::ID, vault.key)?;
         assert_eq!(
             *escrow_address,
             *<spl_token::state::Account as spl_token::state::GenericTokenAccount>::unpack_account_owner(*vault.try_borrow_data()?).ok_or(ProgramError::InvalidAccountData)?
@@ -146,7 +146,7 @@ impl Escrow {
         taker_ta_a: &AccountInfo<'a>,
         taker_ta_b: &AccountInfo<'a>,
     ) -> ProgramResult {
-        check_eq_PDA(&[b"vault", escrow.key.as_ref()], &crate::ID, vault.key)?;
+        check_eq_pda(&[b"vault", escrow.key.as_ref()], &crate::ID, vault.key)?;
         assert_eq!(mint_a.key, &escrow_data.mint_a);
         assert_eq!(mint_b.key, &escrow_data.mint_b);
 
@@ -242,7 +242,7 @@ impl Escrow {
         maker: &AccountInfo<'a>,
     ) -> ProgramResult {
         // Check PDA of vault
-        check_eq_PDA(&[b"vault", escrow.key.as_ref()], &crate::ID, vault.key)?;
+        check_eq_pda(&[b"vault", escrow.key.as_ref()], &crate::ID, vault.key)?;
 
         // Check mints match
         assert_eq!(mint_a.key, &escrow_data.mint_a);

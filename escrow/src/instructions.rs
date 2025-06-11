@@ -1,5 +1,3 @@
-use bytemuck::{Pod, Zeroable};
-
 use solana_program::program_error::ProgramError;
 
 pub enum EscrowInstructions {
@@ -15,7 +13,7 @@ impl TryFrom<&u8> for EscrowInstructions {
         match value {
             0 => Ok(Self::Make),
             1 => Ok(Self::Take),
-            2 => Ok(Self::Take),
+            2 => Ok(Self::Refund),
             _ => Err(ProgramError::InvalidInstructionData),
         }
     }

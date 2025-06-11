@@ -10,7 +10,7 @@ use crate::states::Escrow;
 pub struct Make {
     pub seed: u64,
     pub amount: u64,
-    pub recieve: u64,
+    pub receive: u64,
 }
 impl TryFrom<&[u8]> for Make {
     type Error = ProgramError;
@@ -26,7 +26,7 @@ pub fn process(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResult {
     let Make {
         seed,
         amount,
-        recieve,
+        receive,
     } = Make::try_from(data)?;
 
     let [maker, mint_a, mint_b, maker_ta_a, escrow, vault, token_program, _system_program] =
@@ -36,7 +36,15 @@ pub fn process(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResult {
     };
 
     //initialize escrow account and data
-
+    Escrow::init(seed, receive, *mint_a.key, *mint_b.key, &maker, &escrow)?;
     //deposit funds to vault
-    Ok(())
+    Escrow::deposit(
+        escrow.key,
+        token_program.key,
+        amount,
+        &maker_ta_a,
+        &mint_a,
+        &vault,
+        &maker,
+    )
 }

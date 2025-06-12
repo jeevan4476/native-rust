@@ -12,7 +12,7 @@ use crate::{
     instructions::EscrowInstructions,
 };
 
-const ID: Pubkey = pubkey!("FrNYf6CLqQnrTfeuA4KWyaXAQMCT84QVzE4exGgjypXD");
+const ID: Pubkey = pubkey!("GYR4e4wWTg9KttwwjEsCmRPUsjxPzjEZ5BrhVFYm7KMW");
 
 entrypoint!(process_instruction);
 
